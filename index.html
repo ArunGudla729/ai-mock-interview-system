@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Mock Interview App</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-gray-800">
+
+<div id="authModal" class="fixed inset-0 bg-black bg-opacity-40 hidden items-center justify-center z-50">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+    <h2 class="text-xl font-bold mb-4">Sign Up / Login</h2>
+    <form id="signupForm" class="mb-4">
+      <input type="text" id="signupName" placeholder="Name" class="w-full p-2 border rounded mb-2" required>
+      <input type="email" id="signupEmail" placeholder="Email" class="w-full p-2 border rounded mb-2" required>
+      <input type="password" id="signupPassword" placeholder="Password" class="w-full p-2 border rounded mb-2" required>
+      <button type="submit" class="w-full px-4 py-2 bg-indigo-600 text-white rounded mb-2">Sign Up</button>
+    </form>
+    <hr class="my-2">
+    <form id="loginForm">
+      <input type="email" id="loginEmail" placeholder="Email" class="w-full p-2 border rounded mb-2" required>
+      <input type="password" id="loginPassword" placeholder="Password" class="w-full p-2 border rounded mb-2" required>
+      <button type="submit" class="w-full px-4 py-2 bg-green-600 text-white rounded">Login</button>
+    </form>
+    <div id="authMessage" class="mt-2 text-sm text-red-600"></div>
+    <button id="closeAuthModal" class="mt-3 text-sm text-gray-500 underline">Close</button>
+  </div>
+</div>
+
+  <!-- Navbar -->
+  <nav class="bg-white shadow-md">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <div class="text-2xl font-bold text-indigo-600">AI Mock Interview</div>
+        <div class="hidden md:flex items-center gap-3 text-sm text-gray-600">
+          <a href="#" class="hover:text-indigo-600">Home</a>
+          <a href="#dashboard" class="hover:text-indigo-600">Dashboard</a>
+          <a href="#interview" class="hover:text-indigo-600">Mock Interview</a>
+          <a href="#history" class="hover:text-indigo-600">History</a>
+        </div>
+      </div>
+      <div id="authContainer">
+        <a href="signin.html" id="signInBtn" class="px-4 py-2 bg-indigo-600 text-white rounded-md text-sm hover:bg-indigo-700 transition">
+          Sign In
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="bg-gradient-to-r from-indigo-50 to-white py-16">
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-8 items-center">
+      <div>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900">
+          Practice interviews powered by AI
+        </h1>
+        <p class="mt-4 text-gray-700 max-w-xl">
+          Generate role-specific interview sessions, answer via text or voice, and store your responses securely.
+        </p>
+
+        <div class="mt-6 flex flex-wrap gap-3 items-center">
+          <select id="roleSelect" class="p-2 border rounded-md text-sm">
+            <option value="">Loading roles...</option>
+          </select>
+          <select id="levelSelect" class="p-2 border rounded-md text-sm">
+            <option value="">Select Level</option>
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+          <button id="startInterviewBtn" class="px-5 py-3 bg-indigo-600 text-white rounded-md">Start Mock Interview</button>
+          <a href="#dashboard" class="px-5 py-3 border border-indigo-200 rounded-md text-indigo-600">View Dashboard</a>
+        </div>
+      </div>
+      <div class="p-6 bg-white rounded-2xl shadow-md">
+        <div class="text-sm text-gray-500">Sample session</div>
+        <div class="mt-4 bg-gray-50 p-4 rounded-lg">
+          <div class="text-sm text-gray-800 font-medium">Role: Frontend Developer</div>
+          <div class="mt-2 text-sm text-gray-700">
+            Q: Tell me about yourself?
+          </div>
+          <div class="mt-3 text-sm text-indigo-700 font-semibold">AI score: 78 / 100</div>
+        </div>
+      </div>
+    </div>
+  </header>
+<!-- History Section -->
+<section id="history" class="py-12 bg-white">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="text-2xl font-bold mb-6">Interview History</h2>
+    <div id="historyContainer" class="flex flex-col gap-4">
+      <!-- Interviews will be dynamically inserted here -->
+    </div>
+  </div>
+</section>
+
+  <!-- Dashboard -->
+  <section id="dashboard" class="py-12">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-2xl font-bold">Dashboard</h2>
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="p-6 bg-white rounded-lg shadow-sm">
+          <div class="text-sm text-gray-500">Interviews Completed</div>
+          <div class="mt-2 text-2xl font-semibold text-gray-800" id="interviewsTaken">0</div>
+        </div>
+        <div class="p-6 bg-white rounded-lg shadow-sm">
+          <div class="text-sm text-gray-500">Answers Attempted</div>
+          <div class="mt-2 text-2xl font-semibold text-gray-800" id="averageScore">0</div>
+        </div>
+        <div class="p-6 bg-white rounded-lg shadow-sm">
+          <div class="text-sm text-gray-500">Last Interview Status</div>
+          <div class="mt-2 text-2xl font-semibold text-gray-800" id="bestRole">-</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mock Interview Section -->
+  <section id="interview" class="py-12 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-2xl font-bold">Mock Interview</h2>
+      <div class="mt-6 grid md:grid-cols-3 gap-6">
+
+        <!-- Question & Webcam + Answer -->
+        <div class="md:col-span-2 bg-white p-6 rounded-lg shadow-sm flex flex-col gap-4">
+          <div class="text-sm text-gray-500">Question</div>
+          <div id="questionText" class="font-medium text-gray-800"></div>
+
+          <!-- Webcam -->
+          <div>
+            <video id="webcam" autoplay playsinline class="w-full rounded-lg border"></video>
+            <div class="mt-3">
+              <div class="flex justify-between text-sm text-gray-600 mb-1">
+                <span>Confidence Meter</span>
+                <span id="confidenceValue">0%</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-3">
+                <div id="confidenceBar" class="bg-green-500 h-3 rounded-full transition-all duration-300" style="width:0%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Answer -->
+          <textarea id="answerBox" placeholder="Type your answer here..." class="w-full min-h-[160px] p-3 border rounded-md"></textarea>
+
+          <!-- Voice -->
+          <div class="flex gap-3 items-center">
+            <button id="recordBtn" class="px-4 py-2 bg-gray-200 rounded-md">🎤 Record Answer</button>
+            <span id="recordStatus" class="text-sm text-gray-600">Idle</span>
+          </div>
+
+          <!-- AI Feedback -->
+          <div id="feedbackContainer" class="mt-4"></div>
+
+          <!-- Submit / Reset -->
+          <div class="flex gap-3">
+            <button id="submitBtn" class="px-4 py-2 bg-indigo-600 text-white rounded-md">Submit Answer</button>
+            <button id="resetBtn" class="px-4 py-2 border rounded-md">Reset</button>
+          </div>
+        </div>
+
+        <!-- Session Controls -->
+        <aside class="bg-white p-6 rounded-lg shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="text-sm text-gray-500">Session Controls</div>
+            <div class="mt-3 space-y-2">
+              <div class="text-sm">Role: <strong id="roleDisplay">-</strong></div>
+              <div class="text-sm">Level: <strong id="levelDisplay">-</strong></div>
+              <div class="text-sm">Mode: <strong id="modeDisplay">-</strong></div>
+              <div class="text-sm">Time Limit: <strong>20 mins</strong></div>
+            </div>
+          </div>
+          <div class="mt-4">
+            <button id="nextQuestionBtn" class="w-full px-4 py-2 bg-indigo-600 text-white rounded-md">Next Question</button>
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-8 text-center text-sm text-gray-500">
+    © 2025 AI Mock Interview — Built by Team Paradise 
+  </footer>
+
+  <!-- Scripts -->
+ <script>
+  // Dynamically get BASE_URL from current port
+  window.BASE_URL = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
+</script>
+<script src="script.js"></script>
+
+

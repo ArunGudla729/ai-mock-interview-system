@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Mock Interview - Home</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-up {
+      animation: fadeInUp 1s ease-out forwards;
+    }
+
+    .delay-1 {
+      animation-delay: 0.3s;
+    }
+
+    .delay-2 {
+      animation-delay: 0.6s;
+    }
+
+    .delay-3 {
+      animation-delay: 0.9s;
+    }
+  </style>
+</head>
+
+<body class="relative h-screen w-screen overflow-hidden bg-gray-900">
+
+  <!-- Background Image -->
+  <div
+    class="absolute inset-0 bg-cover bg-center brightness-75"
+    style="background-image: url('https://images.unsplash.com/photo-1535223289827-42f1e9919769?auto=format&fit=crop&w=1920&q=80');">
+  </div>
+
+  <!-- Gradient Overlay -->
+  <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent"></div>
+
+  <!-- Center Content -->
+  <div class="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
+
+    <div class="backdrop-blur-lg bg-white/10 border border-white/20 rounded-2xl p-10 shadow-2xl max-w-lg fade-up">
+      <h1 class="text-5xl font-bold mb-4 fade-up delay-1 drop-shadow-lg">AI Mock Interview</h1>
+      <p class="text-lg mb-8 fade-up delay-2 text-gray-200 leading-relaxed">
+        Sharpen your interview skills with our AI-powered mock interviews.  
+        Get instant feedback, improve confidence, and ace your next job!
+      </p>
+
+      <a
+        href="index.html"
+        target="_blank"
+        class="fade-up delay-3 inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-3 rounded-full shadow-lg transition duration-300 hover:scale-105 active:scale-95">
+        🚀 Get Started / Login
+      </a>
+    </div>
+  </div>
+
+  <!-- Floating Elements (optional aesthetic) -->
+  <div class="absolute top-0 left-0 w-72 h-72 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+  <div class="absolute bottom-0 right-0 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
+
+  <!-- Footer -->
+  <footer class="absolute bottom-4 left-0 right-0 text-center text-gray-300 text-sm">
+    © 2025 AI Mock Interview | Crafted with ❤️ by TEAM PARADISE
+  </footer>
+
+</body>
+</html>

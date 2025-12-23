@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>History</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen p-6">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-2xl font-bold mb-4">Interview History</h1>
+    <div id="historyList">Loading...</div>
+  </div>
+
+  <script>
+    (async function(){
+      const user = JSON.parse(localStorage.getItem('user') || 'null');
+      if (!user) { document.getElementById('historyList').innerText = 'Sign in to view history'; return; }
+      try {
+        const res = await fetch(`${location.origin}/api/history?user_id=${user.id}`);
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.message || 'Failed');
+        const list = data.answers || [];
+        if (!list.length) { document.getElementById('historyList').innerText = 'No history yet.'; return; }
+        document.getElementById('historyList').innerHTML = list.map(a => `
+          <div class="mb-4 p-4 bg-white rounded shadow">
+            <div class="text-sm text-gray-500">${new Date(a.created_at).toLocaleString()}</div>
+            <div class="font-medium mt-1">${a.role || '-'} — ${a.level || '-'}</div>
+            <div class="mt-2"><b>Q:</b> ${a.question || '-'}</div>
+            <div class="mt-2"><b>A:</b> ${a.answer}</div>
+            <div class="mt-2 text-sm text-gray-700"><b>Feedback:</b> ${a.feedback ? (a.feedback.areas_for_improvement || '') : 'N/A'}</div>
+          </div>
+        `).join("");
+      } catch (err) {
+        console.error(err);
+        document.getElementById('historyList').innerText = 'Error loading history.';
+      }
+    })();
+  </script>
+</body>
+</html>
